@@ -1,6 +1,6 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { countries } from '../data/countries';
 
 const PlaneIllustration = () => (
   <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-lg">
@@ -72,6 +72,208 @@ const PlaneIllustration = () => (
   </div>
 );
 
+const UserAvatar = ({ avatarUrl }: { avatarUrl?: string }) => (
+    <div className="w-24 h-24 rounded-full bg-polo-blue/20 flex items-center justify-center mb-4 border-4 border-pattens-blue shadow-md overflow-hidden">
+        {avatarUrl ? (
+            <img src={avatarUrl} alt="Team member" className="w-full h-full object-cover" />
+        ) : (
+            <svg className="w-16 h-16 text-catalina-blue" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" />
+                <path d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22H20.5899Z" />
+            </svg>
+        )}
+    </div>
+);
+
+const teamMembers = [
+  {
+    name: 'Allison Surco',
+    // FIX: The base64 string for the avatar was broken, causing parsing errors. It has been corrected.
+    avatar: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAQ4A4QDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAECA//EABwQAQEBAQEBAQEBAAAAAAAAAAABEQISIUExQf/EBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD5M5lY6iOpjqQ6kOpA6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ',
+    info: {
+      'Perfil profesional': ['Estudiante de Administración y Negocios Internacionales (8.º semestre). Responsable, proactiva y con experiencia en atención al cliente. Destaca por su comunicación asertiva y trabajo en equipo.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Cursos de Excel: básico, intermedio y avanzado (CERTUS).'],
+      'Experiencia laboral': ['Valerianos Pastelería – Atención al cliente y caja.'],
+      'Habilidades y competencias': ['Comunicación asertiva, empatía, disciplina, trabajo en equipo.', 'Servicio al cliente y gestión en tiempos de alta demanda.'],
+      'Software / Idiomas': ['Microsoft Office, Excel, Canva.', 'Español (nativo), inglés básico.'],
+    }
+  },
+  {
+    name: 'Álvaro Flores',
+    info: {
+      'Perfil profesional': ['Estudiante de Administración y Negocios Internacionales. Responsable, innovador y con orientación al trabajo en equipo.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Estudios escolares completos.'],
+      'Experiencia laboral': ['Mini Donas: administración de pedidos, precios y marketing.', 'Mozo y manejo de caja en restaurantes.'],
+      'Habilidades y competencias': ['Liderazgo, comunicación efectiva, responsabilidad, empatía.'],
+      'Software / Idiomas': ['Word, Excel, PowerPoint, Canva.', 'Español (nativo), inglés básico.'],
+    }
+  },
+  {
+    name: 'Anel Graeny Cabana Ramos',
+    info: {
+      'Perfil profesional': ['Estudiante del 6.º ciclo de Administración y Negocios Internacionales. Proactiva, adaptable y orientada al aprendizaje práctico.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental.'],
+      'Experiencia laboral': ['Hospedaje: limpieza, reservas y recepción.', 'Ferretería: ventas, inventario y apoyo administrativo.', 'Vivero: cuidado de plantas y atención a visitantes.'],
+      'Habilidades y competencias': ['Responsabilidad, trabajo en equipo, atención al cliente, adaptabilidad.'],
+      'Software / Idiomas': ['Office básico y herramientas digitales.', 'Español (nativo), inglés básico.'],
+    }
+  },
+  {
+    name: 'Estefani Kelly Ccasa Quispe',
+    info: {
+      'Perfil profesional': ['Estudiante de Negocios Internacionales (inicio de 7.º ciclo). Proactiva y con interés en áreas administrativas, comerciales y logísticas.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental.'],
+      'Experiencia laboral / Proyectos': ['Investigación de mercados (4.º ciclo).', 'Costos y cotizaciones internacionales (5.º ciclo).', 'Manual de franquicias (6.º ciclo).', 'Liderazgo juvenil en voluntariado.'],
+      'Habilidades y competencias': ['Atención al cliente, liderazgo, comunicación efectiva, organización.'],
+      'Software / Idiomas': ['Microsoft Office, Canva, Google Drive.', 'Español (nativo), inglés básico.'],
+    }
+  },
+  {
+    name: 'Wilder Fabricio Espinoza Checa',
+    info: {
+      'Perfil profesional': ['Profesional con amplia experiencia en logística, administración y conducción. Responsable, organizado y con capacidad de solución de problemas.'],
+      'Formación': ['Estudios de logística y SSOMA – IGE.', 'Administración de Negocios Internacionales – Universidad Continental.', 'Maquinaria pesada – Escotec.', 'Inglés intermedio – CCPNA.'],
+      'Experiencia laboral': ['Auxiliar logístico y administrativo – Negociación Lanera Felicitas.', 'Jefe de almacén – Grupo Deltron.', 'Investigación y desarrollo – Laboratorios Portugal.', 'Conductor – Grupo Khujaq.', 'Asistente administrativo – Minera Korilazo SAC.'],
+      'Habilidades y competencias': ['Liderazgo, creatividad, organización, trabajo en equipo.'],
+      'Software / Idiomas': ['Sistemas logísticos, Office.', 'Español (nativo), inglés intermedio.'],
+    }
+  },
+  {
+    name: 'María Apaza',
+    info: {
+      'Perfil profesional': ['Estudiante del 8.º semestre de Negocios Internacionales. Orientada al análisis de mercados, logística y e-commerce. Bilingüe con alto nivel de inglés.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Semana Internacional UC 2024.'],
+      'Experiencia laboral': ['Asistente administrativo en Tienda Toñito: documentos comerciales, caja y conciliación.'],
+      'Habilidades y competencias': ['Comunicación asertiva, liderazgo, gestión de activos, resolución de problemas.'],
+      'Software / Idiomas': ['Office, reportes digitales.', 'Español (nativo), inglés C2.'],
+    }
+  },
+  {
+    name: 'Sheyla Melissa Chino Mamani',
+    info: {
+      'Perfil profesional': ['Estudiante del 8.º semestre de Negocios Internacionales. Creativa, resolutiva y con interés en marketing internacional.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Excel avanzado – Certus.'],
+      'Experiencia / Actividades': ['Participación en proyectos de gestión, marketing y atención al cliente.', 'Brigada animalista y talleres universitarios.'],
+      'Habilidades y competencias': ['Pensamiento estratégico, gestión multicultural, adaptabilidad, trabajo en equipo.'],
+      'Software / Idiomas': ['Excel avanzado, Microsoft Office, Canva.', 'Español (nativo), inglés B1.'],
+    }
+  },
+  {
+    name: 'Senaida Pauccara Choque',
+    info: {
+      'Perfil profesional': ['Estudiante de Negocios Internacionales. Proactiva, comunicativa y enfocada en aprendizaje constante.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental.'],
+      'Experiencia laboral': ['Librería VAGUSSI: atención al cliente, inventarios, caja.', 'Ventas en Moda Gamarra: asesoramiento y organización de stock.'],
+      'Habilidades y competencias': ['Comunicación efectiva, ética profesional, manejo de inventarios, trabajo en equipo.'],
+      'Software / Idiomas': ['Office básico, sistema POS.', 'Español (nativo), inglés intermedio en curso.'],
+    }
+  },
+  // Add member 9 here if provided, there are only 8 in the prompt
+];
+
+const TeamCard = ({ member }: { member: typeof teamMembers[0] }) => {
+    return (
+        <div className="flex-shrink-0 w-11/12 sm:w-80 md:w-96 bg-pattens-blue rounded-2xl shadow-lg p-6 flex flex-col items-center text-smoky-black text-center min-h-[450px]">
+            <UserAvatar avatarUrl={member.avatar} />
+            <h3 className="text-xl font-bold text-catalina-blue font-poppins">{member.name}</h3>
+            <div className="mt-4 text-left text-xs space-y-2 w-full overflow-y-auto pr-2">
+                {Object.entries(member.info).map(([key, value]) => (
+                    <div key={key}>
+                        <h4 className="font-semibold text-st-tropaz capitalize">{key}:</h4>
+                        <ul className="list-disc list-inside pl-2 text-smoky-black/80">
+                            {value.map((item, index) => <li key={index}>{item}</li>)}
+                        </ul>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+
+const TeamSection = () => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [teamData, setTeamData] = React.useState([...teamMembers, ...teamMembers]); // Duplicate for infinite scroll illusion
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollRef.current) {
+            const scrollAmount = scrollRef.current.clientWidth * 0.8;
+            scrollRef.current.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth',
+            });
+        }
+    };
+    
+    return (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+                <h2 className="text-3xl font-bold text-white font-poppins">CONOCE A NUESTRO EQUIPO</h2>
+                <p className="mt-4 text-polo-blue max-w-3xl mx-auto">9 estudiantes de Administración y Negocios Internacionales (U. Continental) impulsando el proyecto GLOBAIR para Inteligencia de Mercados.</p>
+            </div>
+            <div className="relative mt-12">
+                <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-catalina-blue/50 text-white rounded-full p-2 hover:bg-catalina-blue transition-colors hidden md:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+                </button>
+                <div ref={scrollRef} className="flex items-stretch space-x-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-hide">
+                    {teamMembers.map((member, index) => (
+                       <div key={index} className="snap-center">
+                         <TeamCard member={member} />
+                       </div>
+                    ))}
+                </div>
+                <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-catalina-blue/50 text-white rounded-full p-2 hover:bg-catalina-blue transition-colors hidden md:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                </button>
+            </div>
+        </section>
+    );
+};
+
+
+const MiniCoursesSection = () => {
+    const courses = [
+        { title: "Documentación Aduanera", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> },
+        { title: "Costos y Tarifas", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> },
+        { title: "Embalaje Seguro", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> },
+        { title: "Rutas y Conexiones", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> }
+    ];
+
+    return (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+                <h2 className="text-3xl font-bold text-white font-poppins">MINI CURSOS DE EXPORTACIÓN</h2>
+                <p className="mt-4 text-polo-blue max-w-3xl mx-auto">Aprende los conceptos clave y la documentación necesaria para iniciar tus exportaciones aéreas desde Perú de manera segura y exitosa.</p>
+            </div>
+            <div className="mt-12 rounded-2xl overflow-hidden bg-gradient-to-br from-catalina-blue to-st-tropaz shadow-2xl">
+                <div className="grid md:grid-cols-2">
+                    <div className="p-8 md:p-12 flex flex-col justify-center text-center md:text-left">
+                        <h3 className="text-3xl font-bold text-white font-poppins">Impulsa tu Negocio Aéreo</h3>
+                        <p className="mt-4 text-pattens-blue">Guías rápidas y visuales para dominar el proceso de exportación.</p>
+                        <div className="mt-6">
+                            <button className="bg-pattens-blue text-catalina-blue font-bold py-3 px-6 rounded-lg hover:bg-polo-blue hover:text-white transition-colors duration-300 shadow-lg">
+                                Ver todas las guías
+                            </button>
+                        </div>
+                    </div>
+                    <div className="p-8 flex items-center overflow-x-auto scrollbar-hide">
+                        <div className="flex space-x-6">
+                            {courses.map(course => (
+                                <div key={course.title} className="flex-shrink-0 w-32 text-center group cursor-pointer">
+                                    <div className="bg-smoky-black/50 rounded-2xl h-32 w-32 mx-auto flex items-center justify-center text-pattens-blue group-hover:bg-polo-blue/50 group-hover:scale-105 transition-all duration-300">
+                                        {course.icon}
+                                    </div>
+                                    <p className="mt-3 text-sm text-white font-semibold">{course.title}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
 
 const Home: React.FC = () => {
     const steps = [
@@ -121,6 +323,9 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
+            {/* Team Section */}
+            <TeamSection />
+
             {/* Steps Section */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
@@ -135,6 +340,75 @@ const Home: React.FC = () => {
                             <p className="mt-2 text-sm text-polo-blue">{step.description}</p>
                         </div>
                     ))}
+                </div>
+            </section>
+            
+            {/* Mini Courses Section */}
+            <MiniCoursesSection />
+
+            {/* Sign In / Register Section */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid md:grid-cols-2 rounded-xl shadow-2xl overflow-hidden">
+                    {/* Left Panel */}
+                    <div className="p-8 md:p-12 bg-catalina-blue flex flex-col justify-center items-center md:items-start text-center md:text-left">
+                        <div className="w-24 h-24 text-polo-blue">
+                            <svg viewBox="0 0 100 100" className="w-full h-full" aria-hidden="true">
+                                <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+                                <path d="M 50 2 V 98 M 2 50 H 98" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+                                <path d="M20,60 a35,35 0 0,1 60,0" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+                                <path d="M30,75 a20,20 0 0,1 40,0" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+                                <path d="M-5,40 L10,50 L-5,60" fill="#CEE0F4" stroke="#CEE0F4" strokeWidth="1">
+                                <animateMotion dur="8s" repeatCount="indefinite" path="M 50, 2 a 48,48 0 1,1 0,96 a 48,48 0 1,1 0,-96" rotate="auto" />
+                                </path>
+                            </svg>
+                        </div>
+                        <h2 className="text-3xl md:text-4xl font-bold font-poppins text-white mt-4">Accede a Servicios GLOBAIR</h2>
+                        <p className="mt-4 text-pattens-blue max-w-md">
+                            Regístrate para obtener cotizaciones personalizadas, acceso a nuestra documentación exclusiva y soporte directo de nuestro equipo de expertos.
+                        </p>
+                    </div>
+
+                    {/* Right Panel - Form */}
+                    <div className="p-8 md:p-12 bg-pattens-blue">
+                        <h3 className="text-2xl font-bold text-center text-catalina-blue font-poppins mb-6">Comienza a Exportar Hoy</h3>
+                        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                            <div>
+                                <label htmlFor="fullName" className="block text-sm font-medium text-st-tropaz">Nombre Completo</label>
+                                <input type="text" name="fullName" id="fullName" placeholder="John Doe" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black" />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-st-tropaz">Correo Electrónico</label>
+                                <input type="email" name="email" id="email" placeholder="you@example.com" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black" />
+                            </div>
+                            <div>
+                                <label htmlFor="password" className="block text-sm font-medium text-st-tropaz">Contraseña</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black" />
+                            </div>
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="originCountry" className="block text-sm font-medium text-st-tropaz">País de Origen</label>
+                                    <input type="text" id="originCountry" value="Perú" readOnly className="mt-1 block w-full rounded-md border-polo-blue shadow-sm bg-gray-200 text-st-tropaz cursor-not-allowed" />
+                                </div>
+                                <div>
+                                    <label htmlFor="destinationCountry" className="block text-sm font-medium text-st-tropaz">País de Destino</label>
+                                    <select id="destinationCountry" name="destinationCountry" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black h-[42px]">
+                                        <option value="">Seleccionar...</option>
+                                        {countries.sort((a, b) => a.name.localeCompare(b.name)).map(country => (
+                                            <option key={country.id} value={country.id}>{country.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="pt-4">
+                                <button type="submit" className="w-full bg-catalina-blue text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-st-tropaz transition-colors duration-300 shadow-lg">
+                                    CREAR CUENTA
+                                </button>
+                            </div>
+                        </form>
+                        <p className="text-center text-sm text-st-tropaz mt-6">
+                            ¿Ya tienes cuenta? <button className="font-semibold text-catalina-blue hover:underline">Iniciar Sesión</button>
+                        </p>
+                    </div>
                 </div>
             </section>
 

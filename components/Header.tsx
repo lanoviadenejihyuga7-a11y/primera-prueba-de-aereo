@@ -39,7 +39,7 @@ const Header: React.FC = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               <NavLink to="/" className={navLinkClass}>Home</NavLink>
-              <NavLink to="/gallery" className={navLinkClass}>Gallery</NavLink>
+              <NavLink to="/gallery" className={navLinkClass}>Destinos</NavLink>
               <NavLink to="/negotiation" className={navLinkClass}>Negociación</NavLink>
               <NavLink to="/documents" className={navLinkClass}>Documentos</NavLink>
             </div>
@@ -71,7 +71,7 @@ const Header: React.FC = () => {
         <div className="md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <NavLink to="/" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Home</NavLink>
-            <NavLink to="/gallery" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Gallery</NavLink>
+            <NavLink to="/gallery" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Destinos</NavLink>
             <NavLink to="/negotiation" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Negociación</NavLink>
             <NavLink to="/documents" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Documentos</NavLink>
           </div>
