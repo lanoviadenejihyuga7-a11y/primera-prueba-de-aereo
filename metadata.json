@@ -1,0 +1,5 @@
+{
+  "name": "PRIMERA PRUEBA DE AEREO",
+  "description": "A comprehensive web application for managing air cargo exports from Peru, featuring country-specific information, negotiation guides, and an editable document generator.",
+  "requestFramePermissions": []
+}
