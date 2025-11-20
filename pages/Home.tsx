@@ -72,24 +72,27 @@ const PlaneIllustration = () => (
   </div>
 );
 
-const UserAvatar = ({ avatarUrl }: { avatarUrl?: string }) => (
+const UserAvatar = ({ gender }: { gender: 'male' | 'female' }) => (
     <div className="w-24 h-24 rounded-full bg-polo-blue/20 flex items-center justify-center mb-4 border-4 border-pattens-blue shadow-md overflow-hidden">
-        {avatarUrl ? (
-            <img src={avatarUrl} alt="Team member" className="w-full h-full object-cover" />
-        ) : (
-            <svg className="w-16 h-16 text-catalina-blue" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" />
-                <path d="M20.5899 22C20.5899 18.13 16.7399 15 11.9999 15C7.25991 15 3.40991 18.13 3.40991 22H20.5899Z" />
-            </svg>
-        )}
+        <span className="text-6xl" role="img" aria-label={`Avatar de estudiante ${gender === 'male' ? 'masculino' : 'femenino'}`}>
+            {gender === 'male' ? '👨‍🎓' : '👩‍🎓'}
+        </span>
     </div>
 );
 
-const teamMembers = [
+// FIX: Define an interface for team members to ensure type safety for the 'gender' property.
+interface TeamMember {
+  name: string;
+  gender: 'male' | 'female';
+  info: {
+    [key: string]: string[];
+  };
+}
+
+const teamMembers: TeamMember[] = [
   {
     name: 'Allison Surco',
-    // FIX: The base64 string for the avatar was broken, causing parsing errors. It has been corrected.
-    avatar: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAQ4A4QDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAECA//EABwQAQEBAQEBAQEBAAAAAAAAAAABEQISIUExQf/EBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD5M5lY6iOpjqQ6kOpA6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ6kOpDqQ',
+    gender: 'female',
     info: {
       'Perfil profesional': ['Estudiante de Administración y Negocios Internacionales (8.º semestre). Responsable, proactiva y con experiencia en atención al cliente. Destaca por su comunicación asertiva y trabajo en equipo.'],
       'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Cursos de Excel: básico, intermedio y avanzado (CERTUS).'],
@@ -100,6 +103,7 @@ const teamMembers = [
   },
   {
     name: 'Álvaro Flores',
+    gender: 'male',
     info: {
       'Perfil profesional': ['Estudiante de Administración y Negocios Internacionales. Responsable, innovador y con orientación al trabajo en equipo.'],
       'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Estudios escolares completos.'],
@@ -110,6 +114,7 @@ const teamMembers = [
   },
   {
     name: 'Anel Graeny Cabana Ramos',
+    gender: 'female',
     info: {
       'Perfil profesional': ['Estudiante del 6.º ciclo de Administración y Negocios Internacionales. Proactiva, adaptable y orientada al aprendizaje práctico.'],
       'Formación': ['Administración y Negocios Internacionales – Universidad Continental.'],
@@ -120,6 +125,7 @@ const teamMembers = [
   },
   {
     name: 'Estefani Kelly Ccasa Quispe',
+    gender: 'female',
     info: {
       'Perfil profesional': ['Estudiante de Negocios Internacionales (inicio de 7.º ciclo). Proactiva y con interés en áreas administrativas, comerciales y logísticas.'],
       'Formación': ['Administración y Negocios Internacionales – Universidad Continental.'],
@@ -130,6 +136,7 @@ const teamMembers = [
   },
   {
     name: 'Wilder Fabricio Espinoza Checa',
+    gender: 'male',
     info: {
       'Perfil profesional': ['Profesional con amplia experiencia en logística, administración y conducción. Responsable, organizado y con capacidad de solución de problemas.'],
       'Formación': ['Estudios de logística y SSOMA – IGE.', 'Administración de Negocios Internacionales – Universidad Continental.', 'Maquinaria pesada – Escotec.', 'Inglés intermedio – CCPNA.'],
@@ -140,6 +147,7 @@ const teamMembers = [
   },
   {
     name: 'María Apaza',
+    gender: 'female',
     info: {
       'Perfil profesional': ['Estudiante del 8.º semestre de Negocios Internacionales. Orientada al análisis de mercados, logística y e-commerce. Bilingüe con alto nivel de inglés.'],
       'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Semana Internacional UC 2024.'],
@@ -150,6 +158,7 @@ const teamMembers = [
   },
   {
     name: 'Sheyla Melissa Chino Mamani',
+    gender: 'female',
     info: {
       'Perfil profesional': ['Estudiante del 8.º semestre de Negocios Internacionales. Creativa, resolutiva y con interés en marketing internacional.'],
       'Formación': ['Administración y Negocios Internacionales – Universidad Continental.', 'Excel avanzado – Certus.'],
@@ -160,6 +169,7 @@ const teamMembers = [
   },
   {
     name: 'Senaida Pauccara Choque',
+    gender: 'female',
     info: {
       'Perfil profesional': ['Estudiante de Negocios Internacionales. Proactiva, comunicativa y enfocada en aprendizaje constante.'],
       'Formación': ['Administración y Negocios Internacionales – Universidad Continental.'],
@@ -174,7 +184,7 @@ const teamMembers = [
 const TeamCard = ({ member }: { member: typeof teamMembers[0] }) => {
     return (
         <div className="flex-shrink-0 w-11/12 sm:w-80 md:w-96 bg-pattens-blue rounded-2xl shadow-lg p-6 flex flex-col items-center text-smoky-black text-center min-h-[450px]">
-            <UserAvatar avatarUrl={member.avatar} />
+            <UserAvatar gender={member.gender} />
             <h3 className="text-xl font-bold text-catalina-blue font-poppins">{member.name}</h3>
             <div className="mt-4 text-left text-xs space-y-2 w-full overflow-y-auto pr-2">
                 {Object.entries(member.info).map(([key, value]) => (
@@ -276,15 +286,92 @@ const MiniCoursesSection = () => {
 
 
 const Home: React.FC = () => {
+    const [openStep, setOpenStep] = useState<number | null>(null);
+
+    const handleStepToggle = (index: number) => {
+        setOpenStep(openStep === index ? null : index);
+    };
+
     const steps = [
-        { icon: '📦', title: 'Clasificar la Mercancía', description: 'Identifica el HS Code correcto para tus productos.' },
-        { icon: '🛡️', title: 'Preparar Embalaje Aéreo', description: 'Asegura tu carga según las normativas IATA.' },
-        { icon: '📝', title: 'Documentación Obligatoria', description: 'Prepara facturas, packing list y AWB.' },
-        { icon: '✈️', title: 'Selección de Ruta y Aerolínea', description: 'Elige la opción más eficiente y rentable.' },
-        { icon: '🛂', title: 'Despacho Aduanero', description: 'Cumple con los trámites en origen y destino.' },
-        { icon: '📄', title: 'Seguro de Transporte', description: 'Protege tu inversión contra todo riesgo.' },
-        { icon: '🏁', title: 'Entrega en Destino', description: 'Coordina la última milla para una entrega exitosa.' },
-        { icon: '💡', title: 'Consejos Adicionales', description: 'Optimiza costos y tiempos en futuros envíos.' },
+        {
+            icon: '📦',
+            title: 'Clasificar la Mercancía',
+            description: 'Identifica el HS Code correcto para tus productos.',
+            details: 'La clasificación arancelaria (HS Code) es un código numérico que identifica tu producto a nivel mundial. Es crucial para determinar los aranceles, impuestos y regulaciones que se aplicarán en el país de destino. Un código incorrecto puede causar retrasos significativos y multas.',
+            links: [
+                { name: 'Consultar Partida (SUNAT)', url: 'https://www.sunat.gob.pe/ol-ad-ca-actpartida/actpartida' },
+                { name: 'Guía de Clasificación (PromPerú)', url: 'https://www.siicex.gob.pe/siicex/resources/calb/6604-Clasificacion%20arancelaria%20de%20mercancias.pdf' }
+            ]
+        },
+        {
+            icon: '🛡️',
+            title: 'Preparar Embalaje Aéreo',
+            description: 'Asegura tu carga según las normativas IATA.',
+            details: 'El embalaje para carga aérea debe ser ligero para minimizar costos, pero robusto para proteger la mercancía. Debe cumplir con las regulaciones de la IATA (Asociación Internacional de Transporte Aéreo), especialmente para mercancías peligrosas. Un buen etiquetado es fundamental.',
+            links: [
+                { name: 'Regulaciones IATA', url: 'https://www.iata.org/en/programs/cargo/' },
+                { name: 'Consejos de Embalaje (DHL)', url: 'https://www.dhl.com/pe-es/home/nuestras-divisiones/transporte-de-carga/servicio-al-cliente/consejos-de-embalaje-para-el-transporte-de-carga.html' }
+            ]
+        },
+        {
+            icon: '📝',
+            title: 'Documentación Obligatoria',
+            description: 'Prepara facturas, packing list y AWB.',
+            details: 'La documentación es la columna vertebral de la exportación. Los documentos indispensables son la Factura Comercial (detalla la venta), la Lista de Empaque (describe el contenido de los bultos) y la Guía Aérea o AWB (contrato de transporte). Otros como el Certificado de Origen pueden ser necesarios para beneficios arancelarios.',
+            links: [
+                { name: 'Documentos para Exportar (Exportemos.pe)', url: 'https://www.exportemos.pe/centro-de-conocimiento/como-exportar/conociendo-los-procesos-de-exportacion/paso-3-documentos-basicos-para-exportar' },
+                { name: 'Nuestra Guía de Documentos', url: '#/documents' }
+            ]
+        },
+        {
+            icon: '✈️',
+            title: 'Selección de Ruta y Aerolínea',
+            description: 'Elige la opción más eficiente y rentable.',
+            details: 'Investiga las aerolíneas y los agentes de carga (freight forwarders) que operan entre Perú y tu destino. Compara costos, tiempos de tránsito, frecuencia de vuelos y la capacidad para manejar tu tipo de mercancía (ej. carga refrigerada). Utiliza herramientas como la nuestra para explorar opciones.',
+            links: [
+                { name: 'Explorar Destinos', url: '#/gallery' },
+                { name: 'Directorio Logístico (PromPerú)', url: 'https://www.promperu.gob.pe/comercio-exterior/directorio-logistico' }
+            ]
+        },
+        {
+            icon: '🛂',
+            title: 'Despacho Aduanero',
+            description: 'Cumple con los trámites en origen y destino.',
+            details: 'En Perú, para exportaciones con valor FOB mayor a $5,000, es obligatorio contratar un Agente de Aduanas. Este profesional se encargará de presentar la Declaración Aduanera de Mercancías (DAM) ante la SUNAT y gestionar la inspección física si es requerida (canal rojo).',
+            links: [
+                { name: 'Procedimiento de Exportación (SUNAT)', url: 'https://www.sunat.gob.pe/orientacionaduanera/exportacion/procedimiento.html' },
+                { name: 'Guía de Aduanas (Exportemos.pe)', url: 'https://www.exportemos.pe/centro-de-conocimiento/como-exportar/conociendo-los-procesos-de-exportacion/paso-4-procesos-aduaneros' }
+            ]
+        },
+        {
+            icon: '📄',
+            title: 'Seguro de Transporte',
+            description: 'Protege tu inversión contra todo riesgo.',
+            details: 'Contratar un seguro de carga es vital para proteger tu inversión contra pérdidas o daños durante el tránsito aéreo. La cobertura dependerá del tipo de póliza y del Incoterm acordado con el comprador, ya que este define quién es responsable de contratar y pagar el seguro.',
+            links: [
+                { name: 'Importancia del Seguro (PromPerú)', url: 'https://www.siicex.gob.pe/siicex/documentos/5248-1.pdf' },
+                { name: 'Guía de Incoterms', url: 'https://www.exportemos.pe/centro-de-conocimiento/incoterms' }
+            ]
+        },
+        {
+            icon: '🏁',
+            title: 'Entrega en Destino',
+            description: 'Coordina la última milla para una entrega exitosa.',
+            details: 'Una vez que la carga llega al aeropuerto de destino, debe pasar por el proceso de aduanas de importación. Coordina con el comprador y el agente de aduanas en destino para asegurar una liberación y entrega final (última milla) sin contratiempos.',
+            links: [
+                { name: 'Logística Internacional (Referente)', url: 'https://procolombia.co/publicaciones/logistica-para-exportar' }
+            ]
+        },
+        {
+            icon: '💡',
+            title: 'Consejos Adicionales',
+            description: 'Optimiza costos y tiempos en futuros envíos.',
+            details: 'Familiarízate con los Incoterms para definir claramente las responsabilidades y costos. Investiga los medios de pago internacionales más seguros, como la Carta de Crédito. Mantente actualizado sobre los acuerdos comerciales que Perú tiene con otros países para aprovechar beneficios arancelarios.',
+            links: [
+                { name: 'Acuerdos Comerciales del Perú', url: 'https://www.acuerdoscomerciales.gob.pe/' },
+                { name: 'Medios de Pago (Exportemos.pe)', url: 'https://www.exportemos.pe/centro-de-conocimiento/como-exportar/conociendo-los-procesos-de-exportacion/paso-8-formas-de-pago-internacional' }
+            ]
+        },
     ];
 
     const faqs = [
@@ -310,10 +397,10 @@ const Home: React.FC = () => {
                         </p>
                         <div className="mt-8">
                             <Link
-                                to="/gallery"
+                                to="/calculator"
                                 className="inline-block bg-st-tropaz text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-polo-blue transition-colors duration-300 shadow-lg"
                             >
-                                Aprende Cómo
+                                COTIZAR
                             </Link>
                         </div>
                     </div>
@@ -332,12 +419,45 @@ const Home: React.FC = () => {
                     <h2 className="text-3xl font-bold text-white font-poppins">Pasos Esenciales para Exportar</h2>
                     <p className="mt-4 text-polo-blue">Un proceso claro para un envío exitoso.</p>
                 </div>
-                <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
                     {steps.map((step, index) => (
-                        <div key={index} className="bg-catalina-blue p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
-                            <div className="text-4xl mb-4">{step.icon}</div>
-                            <h3 className="text-lg font-semibold text-white">{step.title}</h3>
-                            <p className="mt-2 text-sm text-polo-blue">{step.description}</p>
+                        <div key={index} className="bg-catalina-blue rounded-xl shadow-lg transition-all duration-300 overflow-hidden">
+                            <button
+                                onClick={() => handleStepToggle(index)}
+                                className="w-full p-6 text-left flex items-center gap-4 focus:outline-none"
+                                aria-expanded={openStep === index}
+                                aria-controls={`step-content-${index}`}
+                            >
+                                <div className="text-4xl flex-shrink-0">{step.icon}</div>
+                                <div className="flex-grow">
+                                    <h3 className="text-lg font-semibold text-white">{step.title}</h3>
+                                    <p className="text-sm text-polo-blue">{step.description}</p>
+                                </div>
+                                <span className={`transform transition-transform duration-300 ${openStep === index ? 'rotate-180' : ''}`}>
+                                    <svg className="w-6 h-6 text-polo-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </span>
+                            </button>
+                            <div
+                                id={`step-content-${index}`}
+                                className={`transition-max-height duration-700 ease-in-out ${openStep === index ? 'max-h-[500px]' : 'max-h-0'}`}
+                            >
+                                <div className="px-6 pb-6">
+                                    <p className="text-pattens-blue/90 mb-4 text-sm">{step.details}</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {step.links.map(link => (
+                                            <a
+                                                key={link.name}
+                                                href={link.url.startsWith('#') ? link.url : link.url}
+                                                target={link.url.startsWith('#') ? '_self' : '_blank'}
+                                                rel="noopener noreferrer"
+                                                className="bg-st-tropaz text-xs text-white font-semibold py-1 px-3 rounded-full hover:bg-polo-blue transition-colors"
+                                            >
+                                                {link.name} &rarr;
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>

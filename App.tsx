@@ -10,6 +10,8 @@ import Negotiation from './pages/Negotiation';
 import NegotiationDetail from './pages/NegotiationDetail';
 import Documents from './pages/Documents';
 import DocumentEditor from './pages/DocumentEditor';
+import Calculator from './pages/Calculator';
+import Chat from './components/Chat';
 
 const App: React.FC = () => {
   return (
@@ -24,9 +26,11 @@ const App: React.FC = () => {
           <Route path="/negotiation/:countryId" element={<NegotiationDetail />} />
           <Route path="/documents" element={<Documents />} />
           <Route path="/documents/:documentId" element={<DocumentEditor />} />
+          <Route path="/calculator" element={<Calculator />} />
         </Routes>
       </main>
       <Footer />
+      <Chat />
     </div>
   );
 };

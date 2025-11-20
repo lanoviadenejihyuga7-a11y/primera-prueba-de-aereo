@@ -3,6 +3,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { countries } from '../data/countries';
 import RouteMap from '../components/RouteMap';
+import AIRouteMap from '../components/AIRouteMap';
 
 const CountryDetail: React.FC = () => {
     const { countryId } = useParams<{ countryId: string }>();
@@ -75,9 +76,13 @@ const CountryDetail: React.FC = () => {
                     <div className="space-y-6">
                          {/* Map */}
                         <div>
-                            <h2 className="text-2xl font-bold text-white mb-4">Ruta Aérea Visual</h2>
+                            <h2 className="text-2xl font-bold text-white mb-4">Ruta Aérea Visual (IA)</h2>
                             <div className="bg-smoky-black rounded-lg overflow-hidden border-2 border-st-tropaz aspect-video">
-                                <RouteMap from={limaCoords} to={country.coords} />
+                                <AIRouteMap 
+                                    countryName={country.name} 
+                                    capitalName={country.capital} 
+                                    fallback={<RouteMap from={limaCoords} to={country.coords} />} 
+                                />
                             </div>
                         </div>
                         {/* Routes from Peru */}

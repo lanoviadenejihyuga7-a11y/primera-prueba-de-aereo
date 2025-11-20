@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { documentTemplates } from '../data/documentTemplates';
@@ -97,27 +96,41 @@ const DocumentEditor: React.FC = () => {
                         </button>
                     </div>
                     <div className="bg-white text-gray-800 p-8 rounded-lg shadow-lg min-h-[500px]" ref={previewRef}>
-                        {/* A simplified preview based on Commercial Invoice */}
-                        <h1 className="text-3xl font-bold text-center mb-2">{template.name.toUpperCase()}</h1>
-                        <div className="grid grid-cols-2 gap-8 mt-8 border-b pb-4">
+                        <div className="flex justify-between items-start pb-4 border-b">
                             <div>
-                                <h3 className="font-bold">EXPORTADOR:</h3>
-                                <p>{formData.exporterName || '(Nombre del Exportador)'}</p>
-                                <p>{formData.exporterAddress || '(Dirección)'}</p>
+                                <h1 className="text-2xl font-bold">{template.name.toUpperCase()}</h1>
                             </div>
-                            <div>
-                                <h3 className="font-bold">CONSIGNATARIO:</h3>
-                                <p>{formData.consigneeName || '(Nombre del Consignatario)'}</p>
-                                <p>{formData.consigneeAddress || '(Dirección)'}</p>
+                            <div className="text-right text-sm">
+                                <div className="mb-2">
+                                    <p className="font-bold text-gray-600">Factura N°:</p>
+                                    <p>{formData.invoiceNumber || '...'}</p>
+                                </div>
+                                <div className="mb-2">
+                                    <p className="font-bold text-gray-600">Fecha:</p>
+                                    <p>{formData.invoiceDate || '...'}</p>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-gray-600">AWB:</p>
+                                    <p>{formData.awbNumber || '...'}</p>
+                                </div>
                             </div>
                         </div>
-                        <div className="grid grid-cols-3 gap-8 mt-4">
-                            <div><span className="font-bold">Factura N°:</span> {formData.invoiceNumber || '...'}</div>
-                            <div><span className="font-bold">Fecha:</span> {formData.invoiceDate || '...'}</div>
-                            <div><span className="font-bold">AWB:</span> {formData.awbNumber || '...'}</div>
+
+                        <div className="grid grid-cols-2 gap-8 my-6">
+                            <div className="text-sm">
+                                <h3 className="font-bold text-base mb-1 text-gray-500">EXPORTADOR:</h3>
+                                <p className="font-semibold">{formData.exporterName || '(Nombre del Exportador)'}</p>
+                                <p className="whitespace-pre-wrap">{formData.exporterAddress || '(Dirección)'}</p>
+                            </div>
+                            <div className="text-sm">
+                                <h3 className="font-bold text-base mb-1 text-gray-500">CONSIGNATARIO:</h3>
+                                <p className="font-semibold">{formData.consigneeName || '(Nombre del Consignatario)'}</p>
+                                <p className="whitespace-pre-wrap">{formData.consigneeAddress || '(Dirección)'}</p>
+                            </div>
                         </div>
+                        
                         <div className="mt-8">
-                             <table className="w-full text-left border-collapse">
+                             <table className="w-full text-left border-collapse text-sm">
                                 <thead>
                                     <tr className="bg-gray-100">
                                         <th className="p-2 border">Descripción</th>

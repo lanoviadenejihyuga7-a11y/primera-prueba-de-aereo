@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
@@ -42,6 +41,7 @@ const Header: React.FC = () => {
               <NavLink to="/gallery" className={navLinkClass}>Destinos</NavLink>
               <NavLink to="/negotiation" className={navLinkClass}>Negociación</NavLink>
               <NavLink to="/documents" className={navLinkClass}>Documentos</NavLink>
+              <NavLink to="/calculator" className={navLinkClass}>Cotizar</NavLink>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -74,6 +74,7 @@ const Header: React.FC = () => {
             <NavLink to="/gallery" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Destinos</NavLink>
             <NavLink to="/negotiation" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Negociación</NavLink>
             <NavLink to="/documents" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Documentos</NavLink>
+            <NavLink to="/calculator" className={mobileNavLinkClass} onClick={() => setIsOpen(false)}>Cotizar</NavLink>
           </div>
         </div>
       )}
