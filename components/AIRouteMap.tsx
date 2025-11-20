@@ -25,12 +25,24 @@ const AIRouteMap: React.FC<AIRouteMapProps> = ({ countryName, capitalName, fallb
           contents: {
             parts: [
               {
-                text: `A stylized, professional digital map illustration focusing on the flight connection between Lima, Peru and ${capitalName}, ${countryName}. 
-                Visual style: Dark theme, navy blue ocean, abstract tech-style landmasses. 
-                Key element: A glowing, bright cyan or neon blue curved line representing the flight path connecting the two points. 
-                Aesthetic: Modern logistics, clean, high quality 2D vector art style.`
+                text: `Generate a geographically accurate map illustration showing a direct flight route starting from Lima, Peru.
+                
+                Origin: Lima, Peru (South America).
+                Destination: ${capitalName}, ${countryName}.
+                
+                Visual Requirements:
+                1. Show a map view that includes South America and the region of ${countryName}.
+                2. Draw a distinct, glowing route line connecting exactly Lima, Peru to ${capitalName}. Use a vibrant Celtic Blue (#3971b8) for the line.
+                3. Mark Lima and ${capitalName} with recognizable pin markers.
+                4. Style: Clean, modern vector art. Background should be Ivory (#fbfcee) or very light cream. Landmasses should be a soft Tea Green (#c8d69b) or similar pastel tone. Water should be a soft blue.
+                5. High contrast, cheerful and professional. No dark mode.`
               }
             ]
+          },
+          config: {
+            imageConfig: {
+              aspectRatio: '16:9'
+            }
           }
         });
 
@@ -64,14 +76,14 @@ const AIRouteMap: React.FC<AIRouteMapProps> = ({ countryName, capitalName, fallb
 
   if (loading) {
     return (
-      <div className="w-full h-full flex flex-col items-center justify-center bg-smoky-black relative overflow-hidden">
+      <div className="w-full h-full flex flex-col items-center justify-center bg-ivory relative overflow-hidden">
         {/* Fallback visible with overlay during load for better UX */}
         <div className="absolute inset-0 opacity-30 blur-sm pointer-events-none grayscale">
              {fallback}
         </div>
-        <div className="z-10 flex flex-col items-center bg-catalina-blue/80 p-4 rounded-xl backdrop-blur-sm border border-st-tropaz">
-            <div className="w-8 h-8 border-4 border-st-tropaz border-t-pattens-blue rounded-full animate-spin mb-3"></div>
-            <p className="text-pattens-blue text-sm font-medium text-center">Generando ruta con IA<br/>(Nano Banana)...</p>
+        <div className="z-10 flex flex-col items-center bg-white/90 p-6 rounded-xl backdrop-blur-sm border-2 border-celtic-blue shadow-lg">
+            <div className="w-10 h-10 border-4 border-celtic-blue border-t-vanilla rounded-full animate-spin mb-3"></div>
+            <p className="text-celtic-blue text-sm font-bold text-center font-display">Diseñando ruta desde Lima<br/>(Nano Banana)...</p>
         </div>
       </div>
     );
@@ -82,13 +94,13 @@ const AIRouteMap: React.FC<AIRouteMapProps> = ({ countryName, capitalName, fallb
   }
 
   return (
-    <div className="w-full h-full bg-smoky-black relative group">
+    <div className="w-full h-full bg-ivory relative group">
         <img
         src={imageUrl}
-        alt={`Ruta aérea a ${countryName} generada por IA`}
+        alt={`Ruta aérea desde Lima a ${countryName} generada por IA`}
         className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
         />
-        <div className="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded backdrop-blur-md">
+        <div className="absolute bottom-2 right-2 bg-celtic-blue/80 text-ivory text-[10px] px-2 py-1 rounded backdrop-blur-md font-bold">
             Generado con Gemini
         </div>
     </div>

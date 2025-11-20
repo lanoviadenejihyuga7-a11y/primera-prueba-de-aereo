@@ -15,7 +15,7 @@ import Chat from './components/Chat';
 
 const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-smoky-black font-sans">
+    <div className="flex flex-col min-h-screen bg-ivory font-sans text-drab-dark-brown selection:bg-tea-green selection:text-drab-dark-brown">
       <Header />
       <main className="flex-grow">
         <Routes>

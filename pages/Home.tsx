@@ -1,86 +1,17 @@
+
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { countries } from '../data/countries';
-
-const PlaneIllustration = () => (
-  <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-lg">
-    <svg viewBox="0 0 800 600" className="w-full h-auto" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <defs>
-        <radialGradient id="skyGradientHero" cx="50%" cy="30%" r="70%">
-          <stop offset="0%" stop-color="#315381" />
-          <stop offset="100%" stop-color="#050B1E" />
-        </radialGradient>
-        <linearGradient id="planeBodyGradient" x1="0.5" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stop-color="#CEE0F4" />
-            <stop offset="50%" stop-color="#859FC0" />
-            <stop offset="100%" stop-color="#315381" />
-        </linearGradient>
-        <filter id="cloud-filter">
-          <feTurbulence type="fractalNoise" baseFrequency="0.01 0.005" numOctaves="3" seed="0" result="turbulence"/>
-          <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G" result="displacement"/>
-          <feGaussianBlur in="displacement" stdDeviation="15" />
-        </filter>
-        <filter id="shadow-blur">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
-        </filter>
-      </defs>
-
-      <rect width="800" height="600" fill="url(#skyGradientHero)" />
-
-      {/* Clouds Layer */}
-      <g opacity="0.25">
-        <rect x="0" y="400" width="800" height="200" fill="#193060" filter="url(#cloud-filter)" />
-      </g>
-      
-      {/* Plane group for animation */}
-      <g>
-        <animateTransform
-          attributeName="transform"
-          type="translate"
-          values="0 0; 0 -10; 0 0"
-          dur="5s"
-          repeatCount="indefinite"
-          />
-        
-        {/* Plane Shadow */}
-        <g transform="translate(415, 290) rotate(25) scale(0.9, 0.7)" opacity="0.1" filter="url(#shadow-blur)">
-           <path d="M-250-30 L180-30 L200,0 L180,30 L-250,30 L-210,0 Z" />
-           <path d="M-50-20 L-150-130 L-120-135 L0-15 Z" />
-           <path d="M130-25 L180-90 L200-80 L140-20 Z" />
-        </g>
-        
-        {/* Plane Body */}
-        <g transform="translate(400, 250) rotate(25)">
-          {/* Main Fuselage */}
-          <path d="M-250-30 L180-30 L200,0 L180,30 L-250,30 L-210,0 Z" fill="url(#planeBodyGradient)" stroke="#193060" strokeWidth="1"/>
-          
-          {/* Left Wing */}
-          <path d="M-50-20 L-150-130 L-120-135 L0-15 Z" fill="#859FC0" stroke="#193060" strokeWidth="1"/>
-          
-          {/* Tail */}
-          <path d="M-240-25 L-280-70 L-260-72 L-230-20 Z" fill="#859FC0" stroke="#193060" strokeWidth="1" />
-          <path d="M-275-68 L-290-75 L-250-30 L-240-28 Z" fill="#315381" />
-          
-          {/* Right Wing visible part */}
-          <path d="M-50,20 L-150,130 L-120,135 L0,15 Z" fill="#859FC0" stroke="#193060" strokeWidth="1"/>
-
-          {/* Cockpit Window */}
-          <path d="M160-25 C180-25 195,0 170,25 L150,20 C170,-5 150,-25 160-25" fill="#050B1E"/>
-        </g>
-      </g>
-    </svg>
-  </div>
-);
+import AIHeroIllustration from '../components/AIHeroIllustration';
 
 const UserAvatar = ({ gender }: { gender: 'male' | 'female' }) => (
-    <div className="w-24 h-24 rounded-full bg-polo-blue/20 flex items-center justify-center mb-4 border-4 border-pattens-blue shadow-md overflow-hidden">
+    <div className="w-24 h-24 rounded-full bg-tea-green flex items-center justify-center mb-4 border-4 border-celtic-blue shadow-md overflow-hidden">
         <span className="text-6xl" role="img" aria-label={`Avatar de estudiante ${gender === 'male' ? 'masculino' : 'femenino'}`}>
             {gender === 'male' ? '👨‍🎓' : '👩‍🎓'}
         </span>
     </div>
 );
 
-// FIX: Define an interface for team members to ensure type safety for the 'gender' property.
 interface TeamMember {
   name: string;
   gender: 'male' | 'female';
@@ -178,19 +109,29 @@ const teamMembers: TeamMember[] = [
       'Software / Idiomas': ['Office básico, sistema POS.', 'Español (nativo), inglés intermedio en curso.'],
     }
   },
-  // Add member 9 here if provided, there are only 8 in the prompt
+  {
+    name: 'Gino Frank Quispe Palaco',
+    gender: 'male',
+    info: {
+      'Perfil profesional': ['Estudiante de Administración y Negocios Internacionales. Proactivo, bilingüe y orientado a la optimización de procesos. Interés en logística, mercados globales y e-commerce.'],
+      'Formación': ['Administración y Negocios Internacionales – Universidad Continental (8.º semestre).', 'Semana Internacional UC – 2024.', 'Inglés C2.'],
+      'Experiencia laboral': ['Asistente Administrativo de Soporte – Tienda Toñito: Gestión documental, emisión de comprobantes, conciliación y cierre de caja. Apoyo contable y control de operaciones comerciales diarias.'],
+      'Habilidades y competencias': ['Liderazgo, comunicación asertiva, gestión de activos, resolución de problemas, elaboración de reportes, trabajo en equipo.'],
+      'Software / Idiomas': ['Microsoft Office avanzado.', 'Español (nativo), inglés (C2).'],
+    }
+  },
 ];
 
 const TeamCard = ({ member }: { member: typeof teamMembers[0] }) => {
     return (
-        <div className="flex-shrink-0 w-11/12 sm:w-80 md:w-96 bg-pattens-blue rounded-2xl shadow-lg p-6 flex flex-col items-center text-smoky-black text-center min-h-[450px]">
+        <div className="flex-shrink-0 w-11/12 sm:w-80 md:w-96 bg-white rounded-2xl shadow-xl border-2 border-tea-green p-6 flex flex-col items-center text-drab-dark-brown text-center min-h-[450px] transform hover:scale-105 transition-transform duration-300">
             <UserAvatar gender={member.gender} />
-            <h3 className="text-xl font-bold text-catalina-blue font-poppins">{member.name}</h3>
-            <div className="mt-4 text-left text-xs space-y-2 w-full overflow-y-auto pr-2">
+            <h3 className="text-xl font-bold text-celtic-blue font-display">{member.name}</h3>
+            <div className="mt-4 text-left text-xs space-y-2 w-full overflow-y-auto pr-2 custom-scrollbar">
                 {Object.entries(member.info).map(([key, value]) => (
                     <div key={key}>
-                        <h4 className="font-semibold text-st-tropaz capitalize">{key}:</h4>
-                        <ul className="list-disc list-inside pl-2 text-smoky-black/80">
+                        <h4 className="font-semibold text-celtic-blue capitalize border-b border-vanilla pb-1 mb-1">{key}:</h4>
+                        <ul className="list-disc list-inside pl-2 text-drab-dark-brown/80">
                             {value.map((item, index) => <li key={index}>{item}</li>)}
                         </ul>
                     </div>
@@ -203,8 +144,7 @@ const TeamCard = ({ member }: { member: typeof teamMembers[0] }) => {
 
 const TeamSection = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [teamData, setTeamData] = React.useState([...teamMembers, ...teamMembers]); // Duplicate for infinite scroll illusion
-
+    
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
             const scrollAmount = scrollRef.current.clientWidth * 0.8;
@@ -216,23 +156,23 @@ const TeamSection = () => {
     };
     
     return (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-vanilla py-12 rounded-3xl my-12 shadow-inner">
             <div className="text-center">
-                <h2 className="text-3xl font-bold text-white font-poppins">CONOCE A NUESTRO EQUIPO</h2>
-                <p className="mt-4 text-polo-blue max-w-3xl mx-auto">9 estudiantes de Administración y Negocios Internacionales (U. Continental) impulsando el proyecto GLOBAIR para Inteligencia de Mercados.</p>
+                <h2 className="text-3xl font-bold text-celtic-blue font-display">CONOCE A NUESTRO EQUIPO</h2>
+                <p className="mt-4 text-drab-dark-brown max-w-3xl mx-auto font-medium">Estudiantes de Administración y Negocios Internacionales (U. Continental) impulsando el proyecto GLOBAIR.</p>
             </div>
             <div className="relative mt-12">
-                <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-catalina-blue/50 text-white rounded-full p-2 hover:bg-catalina-blue transition-colors hidden md:block">
+                <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-celtic-blue text-ivory rounded-full p-3 hover:bg-drab-dark-brown transition-colors hidden md:block shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
                 </button>
-                <div ref={scrollRef} className="flex items-stretch space-x-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-hide">
+                <div ref={scrollRef} className="flex items-stretch space-x-6 overflow-x-auto snap-x snap-mandatory py-4 px-4 scrollbar-hide">
                     {teamMembers.map((member, index) => (
                        <div key={index} className="snap-center">
                          <TeamCard member={member} />
                        </div>
                     ))}
                 </div>
-                <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-catalina-blue/50 text-white rounded-full p-2 hover:bg-catalina-blue transition-colors hidden md:block">
+                <button onClick={() => scroll('right')} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-celtic-blue text-ivory rounded-full p-3 hover:bg-drab-dark-brown transition-colors hidden md:block shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                 </button>
             </div>
@@ -250,18 +190,18 @@ const MiniCoursesSection = () => {
     ];
 
     return (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
             <div className="text-center">
-                <h2 className="text-3xl font-bold text-white font-poppins">MINI CURSOS DE EXPORTACIÓN</h2>
-                <p className="mt-4 text-polo-blue max-w-3xl mx-auto">Aprende los conceptos clave y la documentación necesaria para iniciar tus exportaciones aéreas desde Perú de manera segura y exitosa.</p>
+                <h2 className="text-3xl font-bold text-celtic-blue font-display">MINI CURSOS DE EXPORTACIÓN</h2>
+                <p className="mt-4 text-drab-dark-brown max-w-3xl mx-auto">Aprende los conceptos clave y la documentación necesaria para iniciar tus exportaciones aéreas.</p>
             </div>
-            <div className="mt-12 rounded-2xl overflow-hidden bg-gradient-to-br from-catalina-blue to-st-tropaz shadow-2xl">
+            <div className="mt-12 rounded-3xl overflow-hidden bg-gradient-to-br from-celtic-blue to-tea-green shadow-2xl">
                 <div className="grid md:grid-cols-2">
                     <div className="p-8 md:p-12 flex flex-col justify-center text-center md:text-left">
-                        <h3 className="text-3xl font-bold text-white font-poppins">Impulsa tu Negocio Aéreo</h3>
-                        <p className="mt-4 text-pattens-blue">Guías rápidas y visuales para dominar el proceso de exportación.</p>
+                        <h3 className="text-3xl font-bold text-ivory font-display">Impulsa tu Negocio Aéreo</h3>
+                        <p className="mt-4 text-ivory/90 font-medium">Guías rápidas y visuales para dominar el proceso de exportación.</p>
                         <div className="mt-6">
-                            <button className="bg-pattens-blue text-catalina-blue font-bold py-3 px-6 rounded-lg hover:bg-polo-blue hover:text-white transition-colors duration-300 shadow-lg">
+                            <button className="bg-vanilla text-drab-dark-brown font-bold py-3 px-6 rounded-full hover:bg-ivory transition-colors duration-300 shadow-lg border-2 border-celtic-blue">
                                 Ver todas las guías
                             </button>
                         </div>
@@ -270,10 +210,10 @@ const MiniCoursesSection = () => {
                         <div className="flex space-x-6">
                             {courses.map(course => (
                                 <div key={course.title} className="flex-shrink-0 w-32 text-center group cursor-pointer">
-                                    <div className="bg-smoky-black/50 rounded-2xl h-32 w-32 mx-auto flex items-center justify-center text-pattens-blue group-hover:bg-polo-blue/50 group-hover:scale-105 transition-all duration-300">
+                                    <div className="bg-ivory/20 backdrop-blur-md rounded-full h-32 w-32 mx-auto flex items-center justify-center text-ivory group-hover:bg-vanilla group-hover:text-celtic-blue group-hover:scale-105 transition-all duration-300 border-2 border-ivory/30">
                                         {course.icon}
                                     </div>
-                                    <p className="mt-3 text-sm text-white font-semibold">{course.title}</p>
+                                    <p className="mt-3 text-sm text-ivory font-bold shadow-black drop-shadow-md">{course.title}</p>
                                 </div>
                             ))}
                         </div>
@@ -386,28 +326,30 @@ const Home: React.FC = () => {
     return (
         <div className="space-y-16 md:space-y-24">
             {/* Hero Section */}
-            <section className="bg-catalina-blue">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 items-center py-16 md:py-24">
+            <section className="bg-celtic-blue relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 items-center py-16 md:py-24 relative z-10">
                     <div className="text-center md:text-left">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white font-poppins tracking-tight">
-                            Exporta por vía aérea <span className="text-polo-blue">desde Perú</span> hacia el mundo
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-ivory font-display tracking-tight">
+                            Exporta por vía aérea <span className="text-vanilla">desde Perú</span> hacia el mundo
                         </h1>
-                        <p className="mt-6 text-lg text-pattens-blue max-w-2xl mx-auto md:mx-0">
+                        <p className="mt-6 text-lg text-ivory/90 max-w-2xl mx-auto md:mx-0">
                             Tu guía completa para conectar tus productos con mercados internacionales de forma rápida, segura y eficiente.
                         </p>
                         <div className="mt-8">
                             <Link
                                 to="/calculator"
-                                className="inline-block bg-st-tropaz text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-polo-blue transition-colors duration-300 shadow-lg"
+                                className="inline-block bg-vanilla text-drab-dark-brown font-bold py-3 px-8 rounded-full text-lg hover:bg-tea-green transition-colors duration-300 shadow-lg border-2 border-transparent hover:border-celtic-blue"
                             >
-                                COTIZAR
+                                COTIZAR AHORA
                             </Link>
                         </div>
                     </div>
-                    <div className="h-64 md:h-auto">
-                        <PlaneIllustration />
+                    <div className="h-64 md:h-auto aspect-video">
+                        <AIHeroIllustration />
                     </div>
                 </div>
+                {/* Decorative Wave */}
+                <div className="absolute bottom-0 left-0 w-full h-16 bg-ivory" style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 0, 0 100%)' }}></div>
             </section>
 
             {/* Team Section */}
@@ -416,33 +358,33 @@ const Home: React.FC = () => {
             {/* Steps Section */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
-                    <h2 className="text-3xl font-bold text-white font-poppins">Pasos Esenciales para Exportar</h2>
-                    <p className="mt-4 text-polo-blue">Un proceso claro para un envío exitoso.</p>
+                    <h2 className="text-3xl font-bold text-celtic-blue font-display">Pasos Esenciales para Exportar</h2>
+                    <p className="mt-4 text-drab-dark-brown font-medium">Un proceso claro para un envío exitoso.</p>
                 </div>
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
                     {steps.map((step, index) => (
-                        <div key={index} className="bg-catalina-blue rounded-xl shadow-lg transition-all duration-300 overflow-hidden">
+                        <div key={index} className="bg-white border-2 border-tea-green rounded-3xl shadow-md transition-all duration-300 overflow-hidden hover:shadow-xl">
                             <button
                                 onClick={() => handleStepToggle(index)}
-                                className="w-full p-6 text-left flex items-center gap-4 focus:outline-none"
+                                className="w-full p-6 text-left flex items-center gap-4 focus:outline-none group"
                                 aria-expanded={openStep === index}
                                 aria-controls={`step-content-${index}`}
                             >
-                                <div className="text-4xl flex-shrink-0">{step.icon}</div>
+                                <div className="text-4xl flex-shrink-0 group-hover:scale-110 transition-transform">{step.icon}</div>
                                 <div className="flex-grow">
-                                    <h3 className="text-lg font-semibold text-white">{step.title}</h3>
-                                    <p className="text-sm text-polo-blue">{step.description}</p>
+                                    <h3 className="text-lg font-bold text-celtic-blue font-display">{step.title}</h3>
+                                    <p className="text-sm text-drab-dark-brown/80">{step.description}</p>
                                 </div>
-                                <span className={`transform transition-transform duration-300 ${openStep === index ? 'rotate-180' : ''}`}>
-                                    <svg className="w-6 h-6 text-polo-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                <span className={`transform transition-transform duration-300 text-tea-green ${openStep === index ? 'rotate-180' : ''}`}>
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7"></path></svg>
                                 </span>
                             </button>
                             <div
                                 id={`step-content-${index}`}
                                 className={`transition-max-height duration-700 ease-in-out ${openStep === index ? 'max-h-[500px]' : 'max-h-0'}`}
                             >
-                                <div className="px-6 pb-6">
-                                    <p className="text-pattens-blue/90 mb-4 text-sm">{step.details}</p>
+                                <div className="px-6 pb-6 bg-ivory/50">
+                                    <p className="text-drab-dark-brown mb-4 text-sm leading-relaxed">{step.details}</p>
                                     <div className="flex flex-wrap gap-2">
                                         {step.links.map(link => (
                                             <a
@@ -450,7 +392,7 @@ const Home: React.FC = () => {
                                                 href={link.url.startsWith('#') ? link.url : link.url}
                                                 target={link.url.startsWith('#') ? '_self' : '_blank'}
                                                 rel="noopener noreferrer"
-                                                className="bg-st-tropaz text-xs text-white font-semibold py-1 px-3 rounded-full hover:bg-polo-blue transition-colors"
+                                                className="bg-celtic-blue text-xs text-ivory font-semibold py-2 px-4 rounded-full hover:bg-drab-dark-brown transition-colors"
                                             >
                                                 {link.name} &rarr;
                                             </a>
@@ -468,50 +410,48 @@ const Home: React.FC = () => {
 
             {/* Sign In / Register Section */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid md:grid-cols-2 rounded-xl shadow-2xl overflow-hidden">
+                <div className="grid md:grid-cols-2 rounded-3xl shadow-2xl overflow-hidden border-4 border-vanilla">
                     {/* Left Panel */}
-                    <div className="p-8 md:p-12 bg-catalina-blue flex flex-col justify-center items-center md:items-start text-center md:text-left">
-                        <div className="w-24 h-24 text-polo-blue">
+                    <div className="p-8 md:p-12 bg-celtic-blue flex flex-col justify-center items-center md:items-start text-center md:text-left">
+                        <div className="w-24 h-24 text-vanilla">
                             <svg viewBox="0 0 100 100" className="w-full h-full" aria-hidden="true">
-                                <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
-                                <path d="M 50 2 V 98 M 2 50 H 98" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-                                <path d="M20,60 a35,35 0 0,1 60,0" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-                                <path d="M30,75 a20,20 0 0,1 40,0" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
-                                <path d="M-5,40 L10,50 L-5,60" fill="#CEE0F4" stroke="#CEE0F4" strokeWidth="1">
+                                <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.5" />
+                                <path d="M 50 2 V 98 M 2 50 H 98" stroke="currentColor" strokeWidth="1" opacity="0.3" />
+                                <path d="M-5,40 L10,50 L-5,60" fill="#f6e6a5" stroke="#f6e6a5" strokeWidth="1">
                                 <animateMotion dur="8s" repeatCount="indefinite" path="M 50, 2 a 48,48 0 1,1 0,96 a 48,48 0 1,1 0,-96" rotate="auto" />
                                 </path>
                             </svg>
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-bold font-poppins text-white mt-4">Accede a Servicios GLOBAIR</h2>
-                        <p className="mt-4 text-pattens-blue max-w-md">
-                            Regístrate para obtener cotizaciones personalizadas, acceso a nuestra documentación exclusiva y soporte directo de nuestro equipo de expertos.
+                        <h2 className="text-3xl md:text-4xl font-bold font-display text-ivory mt-4">Accede a Servicios GLOBAIR</h2>
+                        <p className="mt-4 text-ivory/90 max-w-md">
+                            Regístrate para obtener cotizaciones personalizadas, acceso a nuestra documentación exclusiva y soporte directo.
                         </p>
                     </div>
 
                     {/* Right Panel - Form */}
-                    <div className="p-8 md:p-12 bg-pattens-blue">
-                        <h3 className="text-2xl font-bold text-center text-catalina-blue font-poppins mb-6">Comienza a Exportar Hoy</h3>
+                    <div className="p-8 md:p-12 bg-ivory">
+                        <h3 className="text-2xl font-bold text-center text-celtic-blue font-display mb-6">Comienza a Exportar Hoy</h3>
                         <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                             <div>
-                                <label htmlFor="fullName" className="block text-sm font-medium text-st-tropaz">Nombre Completo</label>
-                                <input type="text" name="fullName" id="fullName" placeholder="John Doe" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black" />
+                                <label htmlFor="fullName" className="block text-sm font-bold text-drab-dark-brown">Nombre Completo</label>
+                                <input type="text" name="fullName" id="fullName" placeholder="John Doe" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" />
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-st-tropaz">Correo Electrónico</label>
-                                <input type="email" name="email" id="email" placeholder="you@example.com" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black" />
+                                <label htmlFor="email" className="block text-sm font-bold text-drab-dark-brown">Correo Electrónico</label>
+                                <input type="email" name="email" id="email" placeholder="you@example.com" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" />
                             </div>
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-st-tropaz">Contraseña</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black" />
+                                <label htmlFor="password" className="block text-sm font-bold text-drab-dark-brown">Contraseña</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" />
                             </div>
                             <div className="grid sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="originCountry" className="block text-sm font-medium text-st-tropaz">País de Origen</label>
-                                    <input type="text" id="originCountry" value="Perú" readOnly className="mt-1 block w-full rounded-md border-polo-blue shadow-sm bg-gray-200 text-st-tropaz cursor-not-allowed" />
+                                    <label htmlFor="originCountry" className="block text-sm font-bold text-drab-dark-brown">País de Origen</label>
+                                    <input type="text" id="originCountry" value="Perú" readOnly className="mt-1 block w-full rounded-lg border-tea-green shadow-sm bg-gray-100 text-drab-dark-brown cursor-not-allowed p-3" />
                                 </div>
                                 <div>
-                                    <label htmlFor="destinationCountry" className="block text-sm font-medium text-st-tropaz">País de Destino</label>
-                                    <select id="destinationCountry" name="destinationCountry" className="mt-1 block w-full rounded-md border-polo-blue shadow-sm focus:border-catalina-blue focus:ring focus:ring-catalina-blue focus:ring-opacity-50 bg-white text-smoky-black h-[42px]">
+                                    <label htmlFor="destinationCountry" className="block text-sm font-bold text-drab-dark-brown">País de Destino</label>
+                                    <select id="destinationCountry" name="destinationCountry" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown h-[50px] p-3">
                                         <option value="">Seleccionar...</option>
                                         {countries.sort((a, b) => a.name.localeCompare(b.name)).map(country => (
                                             <option key={country.id} value={country.id}>{country.name}</option>
@@ -520,13 +460,13 @@ const Home: React.FC = () => {
                                 </div>
                             </div>
                             <div className="pt-4">
-                                <button type="submit" className="w-full bg-catalina-blue text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-st-tropaz transition-colors duration-300 shadow-lg">
+                                <button type="submit" className="w-full bg-celtic-blue text-ivory font-bold py-3 px-8 rounded-full text-lg hover:bg-drab-dark-brown transition-colors duration-300 shadow-lg">
                                     CREAR CUENTA
                                 </button>
                             </div>
                         </form>
-                        <p className="text-center text-sm text-st-tropaz mt-6">
-                            ¿Ya tienes cuenta? <button className="font-semibold text-catalina-blue hover:underline">Iniciar Sesión</button>
+                        <p className="text-center text-sm text-drab-dark-brown mt-6">
+                            ¿Ya tienes cuenta? <button className="font-bold text-celtic-blue hover:underline">Iniciar Sesión</button>
                         </p>
                     </div>
                 </div>
@@ -535,23 +475,23 @@ const Home: React.FC = () => {
             {/* FAQ Section */}
             <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
                  <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-white font-poppins">Preguntas Frecuentes</h2>
-                    <p className="mt-4 text-polo-blue">Respuestas a tus dudas más comunes.</p>
+                    <h2 className="text-3xl font-bold text-celtic-blue font-display">Preguntas Frecuentes</h2>
+                    <p className="mt-4 text-drab-dark-brown font-medium">Respuestas a tus dudas más comunes.</p>
                 </div>
                 <div className="space-y-4">
                     {faqs.map((faq, index) => (
-                        <div key={index} className="bg-catalina-blue rounded-lg shadow-md overflow-hidden">
+                        <div key={index} className="bg-celtic-blue rounded-2xl shadow-md overflow-hidden">
                             <button
                                 onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                                className="w-full p-5 text-left flex justify-between items-center text-white font-semibold focus:outline-none"
+                                className="w-full p-5 text-left flex justify-between items-center text-ivory font-bold font-display focus:outline-none hover:bg-celtic-blue/90"
                             >
                                 <span>{faq.q}</span>
-                                <span className={`transform transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`}>
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                <span className={`transform transition-transform duration-300 text-vanilla ${openFaq === index ? 'rotate-180' : ''}`}>
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </span>
                             </button>
-                            <div className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openFaq === index ? 'max-h-96' : 'max-h-0'}`}>
-                                <div className="p-5 pt-0 text-polo-blue">
+                            <div className={`transition-max-height duration-500 ease-in-out overflow-hidden bg-ivory ${openFaq === index ? 'max-h-96' : 'max-h-0'}`}>
+                                <div className="p-6 text-drab-dark-brown">
                                     {faq.a}
                                 </div>
                             </div>

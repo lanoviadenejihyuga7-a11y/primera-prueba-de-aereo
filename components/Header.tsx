@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 const PlaneIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-pattens-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-vanilla" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 21h12l5-9-13-8L2 21zm1-11l3 2 1 5L2 10zM21.5 2.5c-1.5 0-2.5 1-2.5 2.5s1 2.5 2.5 2.5 2.5-1 2.5-2.5-1-2.5-2.5-2.5z" transform="rotate(20 12 12)"/>
     </svg>
 );
@@ -12,27 +13,27 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
+    `px-3 py-2 rounded-md text-sm font-bold transition-colors duration-300 font-display ${
       isActive
-        ? 'bg-st-tropaz text-white'
-        : 'text-pattens-blue hover:bg-catalina-blue hover:text-white'
+        ? 'bg-vanilla text-celtic-blue'
+        : 'text-ivory hover:bg-tea-green hover:text-drab-dark-brown'
     }`;
 
   const mobileNavLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 ${
+  `block px-3 py-2 rounded-md text-base font-bold transition-colors duration-300 font-display ${
     isActive
-      ? 'bg-st-tropaz text-white'
-      : 'text-pattens-blue hover:bg-catalina-blue hover:text-white'
+      ? 'bg-vanilla text-celtic-blue'
+      : 'text-ivory hover:bg-tea-green hover:text-drab-dark-brown'
   }`;
 
   return (
-    <header className="bg-catalina-blue/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg">
+    <header className="bg-celtic-blue sticky top-0 z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center gap-2">
                 <PlaneIcon />
-                <span className="text-white text-xl font-bold font-poppins">AeroExport Perú</span>
+                <span className="text-ivory text-2xl font-bold font-display">AeroExport Perú</span>
             </Link>
           </div>
           <div className="hidden md:block">
@@ -48,7 +49,7 @@ const Header: React.FC = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="bg-st-tropaz inline-flex items-center justify-center p-2 rounded-md text-pattens-blue hover:text-white hover:bg-catalina-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-smoky-black focus:ring-white"
+              className="bg-tea-green inline-flex items-center justify-center p-2 rounded-md text-celtic-blue hover:text-ivory hover:bg-drab-dark-brown focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-celtic-blue focus:ring-white"
               aria-controls="mobile-menu"
               aria-expanded="false"
             >

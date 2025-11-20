@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { documentTemplates } from '../data/documentTemplates';
@@ -37,24 +38,24 @@ const DocumentEditor: React.FC = () => {
 
 
     if (!template) {
-        return <div className="text-center py-20 text-white">Plantilla no encontrada.</div>;
+        return <div className="text-center py-20 text-drab-dark-brown">Plantilla no encontrada.</div>;
     }
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
              <div className="mb-8">
-                <Link to="/documents" className="text-polo-blue hover:text-white transition-colors">&larr; Volver a Documentos</Link>
-                <h1 className="text-3xl font-extrabold text-white font-poppins mt-2">Editor: {template.name}</h1>
+                <Link to="/documents" className="text-celtic-blue hover:text-drab-dark-brown transition-colors font-bold">&larr; Volver a Documentos</Link>
+                <h1 className="text-3xl font-extrabold text-celtic-blue font-display mt-2">Editor: {template.name}</h1>
             </div>
             
             <div className="grid lg:grid-cols-2 gap-8">
                 {/* Form */}
-                <div className="bg-catalina-blue p-6 rounded-lg shadow-lg">
-                    <h2 className="text-xl font-bold text-white mb-4">Complete los campos</h2>
+                <div className="bg-white p-8 rounded-3xl shadow-lg border-2 border-tea-green">
+                    <h2 className="text-xl font-bold text-celtic-blue mb-6 font-display">Complete los campos</h2>
                     <form className="space-y-4">
                         {template.fields.map(field => (
                             <div key={field.id}>
-                                <label htmlFor={field.id} className="block text-sm font-medium text-polo-blue mb-1">{field.label}</label>
+                                <label htmlFor={field.id} className="block text-sm font-bold text-drab-dark-brown mb-1">{field.label}</label>
                                 {field.type === 'textarea' ? (
                                     <textarea
                                         id={field.id}
@@ -64,7 +65,7 @@ const DocumentEditor: React.FC = () => {
                                         required={field.required}
                                         value={formData[field.id]}
                                         onChange={handleInputChange}
-                                        className="w-full bg-smoky-black text-white rounded-md border-st-tropaz focus:ring-polo-blue focus:border-polo-blue"
+                                        className="w-full bg-ivory text-drab-dark-brown rounded-lg border-tea-green focus:ring-celtic-blue focus:border-celtic-blue p-2"
                                     />
                                 ) : (
                                     <input
@@ -75,7 +76,7 @@ const DocumentEditor: React.FC = () => {
                                         required={field.required}
                                         value={formData[field.id]}
                                         onChange={handleInputChange}
-                                        className="w-full bg-smoky-black text-white rounded-md border-st-tropaz focus:ring-polo-blue focus:border-polo-blue"
+                                        className="w-full bg-ivory text-drab-dark-brown rounded-lg border-tea-green focus:ring-celtic-blue focus:border-celtic-blue p-2"
                                     />
                                 )}
                             </div>
@@ -86,19 +87,19 @@ const DocumentEditor: React.FC = () => {
                 {/* Preview and Download */}
                 <div>
                     <div className="flex justify-between items-center mb-4">
-                         <h2 className="text-xl font-bold text-white">Vista Previa</h2>
+                         <h2 className="text-xl font-bold text-celtic-blue font-display">Vista Previa</h2>
                          <button
                             onClick={generatePdf}
                             disabled={isGenerating}
-                            className="bg-st-tropaz text-white font-bold py-2 px-4 rounded-lg hover:bg-polo-blue transition-colors duration-300 disabled:bg-gray-500"
+                            className="bg-celtic-blue text-ivory font-bold py-2 px-6 rounded-full hover:bg-drab-dark-brown transition-colors duration-300 disabled:bg-gray-400 shadow-md"
                         >
                             {isGenerating ? 'Generando...' : 'Descargar PDF'}
                         </button>
                     </div>
-                    <div className="bg-white text-gray-800 p-8 rounded-lg shadow-lg min-h-[500px]" ref={previewRef}>
-                        <div className="flex justify-between items-start pb-4 border-b">
+                    <div className="bg-white text-gray-800 p-8 rounded-xl shadow-2xl min-h-[500px] border border-gray-200" ref={previewRef}>
+                        <div className="flex justify-between items-start pb-4 border-b-2 border-gray-800">
                             <div>
-                                <h1 className="text-2xl font-bold">{template.name.toUpperCase()}</h1>
+                                <h1 className="text-2xl font-bold font-serif tracking-wide">{template.name.toUpperCase()}</h1>
                             </div>
                             <div className="text-right text-sm">
                                 <div className="mb-2">
@@ -118,12 +119,12 @@ const DocumentEditor: React.FC = () => {
 
                         <div className="grid grid-cols-2 gap-8 my-6">
                             <div className="text-sm">
-                                <h3 className="font-bold text-base mb-1 text-gray-500">EXPORTADOR:</h3>
+                                <h3 className="font-bold text-base mb-1 text-gray-500 uppercase">Exportador:</h3>
                                 <p className="font-semibold">{formData.exporterName || '(Nombre del Exportador)'}</p>
                                 <p className="whitespace-pre-wrap">{formData.exporterAddress || '(Dirección)'}</p>
                             </div>
                             <div className="text-sm">
-                                <h3 className="font-bold text-base mb-1 text-gray-500">CONSIGNATARIO:</h3>
+                                <h3 className="font-bold text-base mb-1 text-gray-500 uppercase">Consignatario:</h3>
                                 <p className="font-semibold">{formData.consigneeName || '(Nombre del Consignatario)'}</p>
                                 <p className="whitespace-pre-wrap">{formData.consigneeAddress || '(Dirección)'}</p>
                             </div>
@@ -133,25 +134,25 @@ const DocumentEditor: React.FC = () => {
                              <table className="w-full text-left border-collapse text-sm">
                                 <thead>
                                     <tr className="bg-gray-100">
-                                        <th className="p-2 border">Descripción</th>
-                                        <th className="p-2 border">Cant.</th>
-                                        <th className="p-2 border">Precio Unit.</th>
-                                        <th className="p-2 border">Total</th>
+                                        <th className="p-2 border border-gray-300">Descripción</th>
+                                        <th className="p-2 border border-gray-300 text-center">Cant.</th>
+                                        <th className="p-2 border border-gray-300 text-right">Precio Unit.</th>
+                                        <th className="p-2 border border-gray-300 text-right">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td className="p-2 border">{formData.itemDescription || '...'}</td>
-                                        <td className="p-2 border text-center">{formData.itemQuantity || '...'}</td>
-                                        <td className="p-2 border text-right">{formData.itemPrice ? `$${formData.itemPrice}` : '...'}</td>
-                                        <td className="p-2 border text-right">{formData.itemQuantity && formData.itemPrice ? `$${(parseFloat(formData.itemQuantity) * parseFloat(formData.itemPrice)).toFixed(2)}` : '...'}</td>
+                                        <td className="p-2 border border-gray-300">{formData.itemDescription || '...'}</td>
+                                        <td className="p-2 border border-gray-300 text-center">{formData.itemQuantity || '...'}</td>
+                                        <td className="p-2 border border-gray-300 text-right">{formData.itemPrice ? `$${formData.itemPrice}` : '...'}</td>
+                                        <td className="p-2 border border-gray-300 text-right">{formData.itemQuantity && formData.itemPrice ? `$${(parseFloat(formData.itemQuantity) * parseFloat(formData.itemPrice)).toFixed(2)}` : '...'}</td>
                                     </tr>
                                      {/* Add more rows here for a real app */}
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colSpan={3} className="text-right font-bold p-2 border">TOTAL (USD)</td>
-                                        <td className="font-bold text-right p-2 border">{formData.itemQuantity && formData.itemPrice ? `$${(parseFloat(formData.itemQuantity) * parseFloat(formData.itemPrice)).toFixed(2)}` : '...'}</td>
+                                        <td colSpan={3} className="text-right font-bold p-2 border border-gray-300 bg-gray-50">TOTAL (USD)</td>
+                                        <td className="font-bold text-right p-2 border border-gray-300 bg-gray-50">{formData.itemQuantity && formData.itemPrice ? `$${(parseFloat(formData.itemQuantity) * parseFloat(formData.itemPrice)).toFixed(2)}` : '...'}</td>
                                     </tr>
                                 </tfoot>
                             </table>

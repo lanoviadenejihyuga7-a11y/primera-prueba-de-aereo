@@ -88,34 +88,34 @@ const Chat: React.FC = () => {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 bg-st-tropaz text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center transform hover:scale-110 transition-transform z-50"
+        className="fixed bottom-6 right-6 bg-celtic-blue text-ivory w-16 h-16 rounded-full shadow-lg flex items-center justify-center transform hover:scale-110 transition-transform z-50 border-4 border-vanilla"
         aria-label="Abrir chat de ayuda"
       >
         {isOpen ? <CloseIcon /> : <ChatIcon />}
       </button>
 
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[60vh] bg-catalina-blue rounded-2xl shadow-2xl flex flex-col z-50 font-sans animate-fade-in-up">
-          <div className="bg-st-tropaz p-4 rounded-t-2xl">
-            <h3 className="font-bold text-white text-lg">GLOBAIR Assistant</h3>
-            <p className="text-sm text-polo-blue">Asistente para Exportadores</p>
+        <div className="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[60vh] bg-white rounded-3xl shadow-2xl flex flex-col z-50 font-sans animate-fade-in-up border-4 border-celtic-blue">
+          <div className="bg-celtic-blue p-4 rounded-t-2xl border-b-4 border-vanilla">
+            <h3 className="font-bold text-vanilla text-lg font-display">GLOBAIR Assistant</h3>
+            <p className="text-sm text-ivory">Asistente para Exportadores</p>
           </div>
 
-          <div className="flex-grow p-4 overflow-y-auto space-y-4">
+          <div className="flex-grow p-4 overflow-y-auto space-y-4 bg-ivory">
             {messages.map((msg, index) => (
               <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-xs px-4 py-2 rounded-xl ${msg.role === 'user' ? 'bg-st-tropaz text-white' : 'bg-pattens-blue text-smoky-black'}`}>
+                <div className={`max-w-xs px-4 py-3 rounded-2xl shadow-sm font-medium ${msg.role === 'user' ? 'bg-celtic-blue text-ivory rounded-tr-none' : 'bg-white text-drab-dark-brown border border-tea-green rounded-tl-none'}`}>
                   <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
                 </div>
               </div>
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                  <div className="max-w-xs px-4 py-2 rounded-xl bg-pattens-blue text-smoky-black">
+                  <div className="max-w-xs px-4 py-3 rounded-2xl bg-white border border-tea-green rounded-tl-none shadow-sm">
                       <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-polo-blue rounded-full animate-pulse"></div>
-                        <div className="w-2 h-2 bg-polo-blue rounded-full animate-pulse [animation-delay:0.1s]"></div>
-                        <div className="w-2 h-2 bg-polo-blue rounded-full animate-pulse [animation-delay:0.2s]"></div>
+                        <div className="w-2 h-2 bg-celtic-blue rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-celtic-blue rounded-full animate-pulse [animation-delay:0.1s]"></div>
+                        <div className="w-2 h-2 bg-celtic-blue rounded-full animate-pulse [animation-delay:0.2s]"></div>
                       </div>
                   </div>
               </div>
@@ -123,19 +123,19 @@ const Chat: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t border-st-tropaz">
+          <div className="p-4 border-t border-tea-green bg-white rounded-b-2xl">
             <form onSubmit={handleSendMessage} className="flex items-center gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder="Escribe tu pregunta..."
-                className="w-full bg-smoky-black text-white rounded-lg border-polo-blue focus:ring-polo-blue focus:border-polo-blue flex-grow"
+                className="w-full bg-ivory text-drab-dark-brown rounded-full border-tea-green focus:ring-celtic-blue focus:border-celtic-blue flex-grow p-3 shadow-inner"
                 disabled={isLoading}
               />
               <button
                 type="submit"
-                className="bg-st-tropaz text-white p-3 rounded-full hover:bg-polo-blue disabled:bg-gray-500 transition-colors"
+                className="bg-celtic-blue text-ivory p-3 rounded-full hover:bg-drab-dark-brown disabled:bg-gray-400 transition-colors shadow-md"
                 disabled={isLoading || !input.trim()}
                 aria-label="Enviar mensaje"
               >
