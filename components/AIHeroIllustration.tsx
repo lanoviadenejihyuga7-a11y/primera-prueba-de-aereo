@@ -147,6 +147,8 @@ const AIHeroIllustration: React.FC = () => {
     );
   }
 
+  if (error || !imageUrl) {
+    return <FallbackPlaneIllustration />;
   }
 
   return (
