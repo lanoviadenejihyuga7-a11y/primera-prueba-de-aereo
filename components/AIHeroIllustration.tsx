@@ -147,16 +147,24 @@ const AIHeroIllustration: React.FC = () => {
     );
   }
 
-  if (error || !imageUrl) {
+  // ⬅️ Si Nano Banana falló, usar Gemini SIN marcar error
+  const finalImage = imageUrl || fallbackUrl;
+
+  if (!finalImage) {
     return <FallbackPlaneIllustration />;
   }
 
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-2xl border-4 border-tea-green shadow-xl bg-ivory group">
-        <img src={imageUrl} alt="AI Generated Plane" className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" />
-         <div className="absolute bottom-3 right-3 bg-celtic-blue/80 text-ivory text-[10px] px-2 py-1 rounded backdrop-blur-md font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-            Generado con Gemini 2.5 Flash Image
-        </div>
+      <img
+        src={finalImage}
+        alt="AI Generated Plane"
+        className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
+      />
+
+      <div className="absolute bottom-3 right-3 bg-celtic-blue/80 text-ivory text-[10px] px-2 py-1 rounded backdrop-blur-md font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+        {imageUrl ? "Generado con Nano Banana" : "Generado con Gemini 2.5 Flash Image"}
+      </div>
     </div>
   );
 }
