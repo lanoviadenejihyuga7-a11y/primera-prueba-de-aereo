@@ -5,6 +5,15 @@ export interface RouteInfo {
   airlines: string[];
 }
 
+export interface TradeAgreement {
+  name: string;
+  url: string;
+  validity?: string;
+  approvalDoc?: string;
+  passengerRights?: string;
+  cargoProducts?: string;
+}
+
 export interface Country {
   id: string;
   continent: string;
@@ -19,6 +28,17 @@ export interface Country {
   timezone: string;
   coords: { lat: number; lon: number };
   negotiation: NegotiationDetails;
+  usefulLinks?: { title: string; url: string }[];
+  // New Data Fields
+  population?: string;
+  government?: string;
+  gdp?: string;
+  tradeBalance?: { exports: string; imports: string };
+  tradePartners?: string[];
+  mainSectors?: string[];
+  // Trade & Resources
+  countryProfileUrl?: string;
+  tradeAgreement?: TradeAgreement;
 }
 
 export interface NegotiationDetails {

@@ -16,7 +16,7 @@ const Documents: React.FC = () => {
                     <div key={doc.id} className="bg-white rounded-2xl shadow-lg flex flex-col border-2 border-tea-green overflow-hidden hover:shadow-xl transition-shadow">
                         <div className="p-8 flex-grow">
                             <h2 className="text-2xl font-bold text-celtic-blue mb-3 font-display">{doc.name}</h2>
-                            <p className="text-drab-dark-brown text-sm leading-relaxed">{doc.description}</p>
+                            <p className="text-drab-dark-brown text-sm leading-relaxed whitespace-pre-line">{doc.description}</p>
                         </div>
                          <div className="bg-vanilla p-4 mt-auto">
                             <Link to={`/documents/${doc.id}`} className="block w-full text-center text-celtic-blue font-bold font-display hover:text-drab-dark-brown transition-colors">

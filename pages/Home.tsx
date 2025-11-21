@@ -144,6 +144,8 @@ const TeamCard = ({ member }: { member: typeof teamMembers[0] }) => {
 
 const TeamSection = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [showVideo, setShowVideo] = useState(false);
+    const videoUrl = "https://drive.google.com/file/d/1mZV7TDpwHovKyhFIvMuoWkFj44rljvuL/preview";
     
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
@@ -156,11 +158,58 @@ const TeamSection = () => {
     };
     
     return (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-vanilla py-12 rounded-3xl my-12 shadow-inner">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-vanilla py-12 rounded-3xl my-12 shadow-inner relative">
             <div className="text-center">
                 <h2 className="text-3xl font-bold text-celtic-blue font-display">CONOCE A NUESTRO EQUIPO</h2>
                 <p className="mt-4 text-drab-dark-brown max-w-3xl mx-auto font-medium">Estudiantes de Administración y Negocios Internacionales (U. Continental) impulsando el proyecto GLOBAIR.</p>
+                
+                <button 
+                    onClick={() => setShowVideo(true)}
+                    className="mt-6 bg-celtic-blue text-ivory font-bold py-2 px-6 rounded-full hover:bg-drab-dark-brown transition-colors shadow-lg flex items-center gap-2 mx-auto group"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Ver Video de Presentación
+                </button>
             </div>
+
+            {/* Video Modal */}
+            {showVideo && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-drab-dark-brown/90 p-4 backdrop-blur-sm" onClick={() => setShowVideo(false)}>
+                    <div className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border-4 border-celtic-blue group" onClick={e => e.stopPropagation()}>
+                        <button 
+                            onClick={() => setShowVideo(false)} 
+                            className="absolute top-4 right-4 z-20 bg-white/20 text-white rounded-full p-2 hover:bg-red-600 hover:text-white transition-all backdrop-blur-md"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                        <iframe 
+                            src={videoUrl} 
+                            className="w-full h-full" 
+                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
+                            allowFullScreen
+                            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+                            title="Video del equipo"
+                        ></iframe>
+
+                        {/* Fallback Link */}
+                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full backdrop-blur-sm text-sm flex gap-2 items-center hover:bg-black/80 transition-colors z-20">
+                            <span>¿Problemas de reproducción?</span>
+                            <a 
+                                href={videoUrl.replace('/preview', '/view')} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-vanilla font-bold hover:text-tea-green hover:underline flex items-center gap-1"
+                            >
+                                Abrir en Drive <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="relative mt-12">
                 <button onClick={() => scroll('left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-celtic-blue text-ivory rounded-full p-3 hover:bg-drab-dark-brown transition-colors hidden md:block shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
@@ -182,19 +231,73 @@ const TeamSection = () => {
 
 
 const MiniCoursesSection = () => {
+    const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
     const courses = [
-        { title: "Documentación Aduanera", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> },
-        { title: "Costos y Tarifas", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> },
-        { title: "Embalaje Seguro", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg> },
-        { title: "Rutas y Conexiones", icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> }
+        { 
+            title: "Documentación Aduanera", 
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>,
+            videoUrl: "https://drive.google.com/file/d/1UicSQ3VA3ZkXo7U6gaudfDV_8JTHQbVh/preview" 
+        },
+        { 
+            title: "Costos y Tarifas", 
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>,
+            videoUrl: "https://drive.google.com/file/d/1IPo19kr6WChtv6Gpk5yXRXBjFKhb4FEd/preview"
+        },
+        { 
+            title: "Embalaje Seguro", 
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>,
+            videoUrl: "https://drive.google.com/file/d/1seJ5V_qBfJC6q0y27csWEuS_m2xczBve/preview" 
+        },
+        { 
+            title: "Rutas y Conexiones", 
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>,
+            videoUrl: "https://drive.google.com/file/d/18w5YyoDfZfMCrgHAByuAl7FLJ5cu5-TV/preview"
+        }
     ];
 
     return (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative">
             <div className="text-center">
                 <h2 className="text-3xl font-bold text-celtic-blue font-display">MINI CURSOS DE EXPORTACIÓN</h2>
                 <p className="mt-4 text-drab-dark-brown max-w-3xl mx-auto">Aprende los conceptos clave y la documentación necesaria para iniciar tus exportaciones aéreas.</p>
             </div>
+
+             {/* Video Modal */}
+             {activeVideo && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-drab-dark-brown/90 p-4 backdrop-blur-sm" onClick={() => setActiveVideo(null)}>
+                    <div className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border-4 border-tea-green group" onClick={e => e.stopPropagation()}>
+                        <button 
+                            onClick={() => setActiveVideo(null)} 
+                            className="absolute top-4 right-4 z-20 bg-white/20 text-white rounded-full p-2 hover:bg-red-600 hover:text-white transition-all backdrop-blur-md"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                        <iframe 
+                            src={activeVideo} 
+                            className="w-full h-full" 
+                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
+                            allowFullScreen
+                            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+                            title="Video del curso"
+                        ></iframe>
+
+                        {/* Fallback Link */}
+                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full backdrop-blur-sm text-sm flex gap-2 items-center hover:bg-black/80 transition-colors z-20">
+                            <span>¿No reproduce?</span>
+                            <a 
+                                href={activeVideo.replace('/preview', '/view')} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-vanilla font-bold hover:text-tea-green hover:underline flex items-center gap-1"
+                            >
+                                Ver directamente <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="mt-12 rounded-3xl overflow-hidden bg-gradient-to-br from-celtic-blue to-tea-green shadow-2xl">
                 <div className="grid md:grid-cols-2">
                     <div className="p-8 md:p-12 flex flex-col justify-center text-center md:text-left">
@@ -209,11 +312,25 @@ const MiniCoursesSection = () => {
                     <div className="p-8 flex items-center overflow-x-auto scrollbar-hide">
                         <div className="flex space-x-6">
                             {courses.map(course => (
-                                <div key={course.title} className="flex-shrink-0 w-32 text-center group cursor-pointer">
-                                    <div className="bg-ivory/20 backdrop-blur-md rounded-full h-32 w-32 mx-auto flex items-center justify-center text-ivory group-hover:bg-vanilla group-hover:text-celtic-blue group-hover:scale-105 transition-all duration-300 border-2 border-ivory/30">
+                                <div 
+                                    key={course.title} 
+                                    className={`flex-shrink-0 w-32 text-center group transition-all duration-300 ${course.videoUrl ? 'cursor-pointer hover:scale-110' : 'cursor-default hover:scale-105'}`}
+                                    onClick={() => course.videoUrl ? setActiveVideo(course.videoUrl) : null}
+                                >
+                                    <div className={`bg-ivory/20 backdrop-blur-md rounded-full h-32 w-32 mx-auto flex items-center justify-center text-ivory group-hover:bg-vanilla group-hover:text-celtic-blue border-2 border-ivory/30 relative ${course.videoUrl ? 'ring-4 ring-transparent group-hover:ring-vanilla/50' : ''}`}>
                                         {course.icon}
+                                        {course.videoUrl && (
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <div className="bg-celtic-blue text-ivory rounded-full p-2 shadow-lg">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 pl-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                    <p className="mt-3 text-sm text-ivory font-bold shadow-black drop-shadow-md">{course.title}</p>
+                                    <p className="mt-3 text-sm text-ivory font-bold shadow-black drop-shadow-md">
+                                        {course.title}
+                                        {course.videoUrl && <span className="block text-xs font-normal text-vanilla mt-1">(Ver Video)</span>}
+                                    </p>
                                 </div>
                             ))}
                         </div>
