@@ -4,6 +4,13 @@ import { Link } from 'react-router-dom';
 import { countries } from '../data/countries';
 import AIHeroIllustration from '../components/AIHeroIllustration';
 
+// ----------------------------------------------------------------------
+// CONFIGURACIÓN DE GOOGLE SHEETS
+// Para que el registro funcione y guarde datos en tu Excel (Google Sheet),
+// sigue las instrucciones para desplegar el Apps Script y pega aquí tu URL:
+const GOOGLE_SCRIPT_URL = ""; 
+// ----------------------------------------------------------------------
+
 const UserAvatar = ({ gender }: { gender: 'male' | 'female' }) => (
     <div className="w-24 h-24 rounded-full bg-tea-green flex items-center justify-center mb-4 border-4 border-celtic-blue shadow-md overflow-hidden">
         <span className="text-6xl" role="img" aria-label={`Avatar de estudiante ${gender === 'male' ? 'masculino' : 'femenino'}`}>
@@ -344,9 +351,68 @@ const MiniCoursesSection = () => {
 
 const Home: React.FC = () => {
     const [openStep, setOpenStep] = useState<number | null>(null);
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+    // Form State
+    const [registerForm, setRegisterForm] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        destinationCountry: ''
+    });
+    const [registerStatus, setRegisterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     const handleStepToggle = (index: number) => {
         setOpenStep(openStep === index ? null : index);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+    };
+
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setRegisterStatus('loading');
+
+        // Check if user has set the script URL
+        if (!GOOGLE_SCRIPT_URL) {
+            console.warn("URL de Google Script no configurada. Simulando envío...");
+            
+            // Simulación para demo
+            setTimeout(() => {
+                console.log("Datos que se enviarían:", registerForm);
+                setRegisterStatus('success');
+                setRegisterForm({ fullName: '', email: '', password: '', destinationCountry: '' });
+                setTimeout(() => setRegisterStatus('idle'), 3000);
+            }, 1500);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('fullName', registerForm.fullName);
+        formData.append('email', registerForm.email);
+        formData.append('originCountry', 'Perú');
+        // Find country name or send ID
+        const destName = countries.find(c => c.id === registerForm.destinationCountry)?.name || registerForm.destinationCountry;
+        formData.append('destinationCountry', destName);
+        formData.append('password', registerForm.password); // Note: Sending PW to sheet is insecure in prod, but per request.
+        formData.append('timestamp', new Date().toISOString());
+
+        try {
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' // 'no-cors' is required for simple Google Apps Script triggers
+            });
+            
+            setRegisterStatus('success');
+            setRegisterForm({ fullName: '', email: '', password: '', destinationCountry: '' });
+            
+            setTimeout(() => setRegisterStatus('idle'), 3000);
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            setRegisterStatus('error');
+        }
     };
 
     const steps = [
@@ -437,8 +503,6 @@ const Home: React.FC = () => {
         { q: '¿Necesito un agente de aduanas?', a: 'Sí, para exportaciones con un valor FOB superior a $5,000 USD, es obligatorio contratar un agente de aduanas en Perú. Es altamente recomendable en todos los casos por la complejidad del proceso.' },
         { q: '¿Qué tipo de mercancías están restringidas?', a: 'Materiales peligrosos (HAZMAT), perecederos, animales vivos y artículos de alto valor tienen regulaciones especiales y requieren permisos adicionales. Consulta la normativa IATA.' },
     ];
-
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     return (
         <div className="space-y-16 md:space-y-24">
@@ -546,20 +610,65 @@ const Home: React.FC = () => {
                     </div>
 
                     {/* Right Panel - Form */}
-                    <div className="p-8 md:p-12 bg-ivory">
+                    <div className="p-8 md:p-12 bg-ivory relative">
+                        {registerStatus === 'success' ? (
+                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-ivory/90 z-20 animate-fade-in-up">
+                                <div className="w-20 h-20 bg-tea-green rounded-full flex items-center justify-center mb-4 border-4 border-celtic-blue">
+                                    <svg className="w-10 h-10 text-celtic-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-celtic-blue font-display">¡Registro Exitoso!</h3>
+                                <p className="text-drab-dark-brown mt-2">Bienvenido a AeroExport Perú.</p>
+                            </div>
+                        ) : null}
+
                         <h3 className="text-2xl font-bold text-center text-celtic-blue font-display mb-6">Comienza a Exportar Hoy</h3>
-                        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                        
+                        {!GOOGLE_SCRIPT_URL && (
+                            <div className="mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 text-xs">
+                                <p className="font-bold">⚠️ Modo Demo Activado</p>
+                                <p>Para guardar datos reales, configura la URL del Google Script en el código (pages/Home.tsx).</p>
+                            </div>
+                        )}
+
+                        <form className="space-y-4" onSubmit={handleRegister}>
                             <div>
                                 <label htmlFor="fullName" className="block text-sm font-bold text-drab-dark-brown">Nombre Completo</label>
-                                <input type="text" name="fullName" id="fullName" placeholder="John Doe" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" />
+                                <input 
+                                    type="text" 
+                                    name="fullName" 
+                                    id="fullName" 
+                                    required
+                                    placeholder="John Doe" 
+                                    value={registerForm.fullName}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" 
+                                />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-bold text-drab-dark-brown">Correo Electrónico</label>
-                                <input type="email" name="email" id="email" placeholder="you@example.com" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" />
+                                <input 
+                                    type="email" 
+                                    name="email" 
+                                    id="email" 
+                                    required
+                                    placeholder="you@example.com" 
+                                    value={registerForm.email}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" 
+                                />
                             </div>
                             <div>
                                 <label htmlFor="password" className="block text-sm font-bold text-drab-dark-brown">Contraseña</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" />
+                                <input 
+                                    type="password" 
+                                    name="password" 
+                                    id="password" 
+                                    required
+                                    placeholder="••••••••" 
+                                    value={registerForm.password}
+                                    onChange={handleInputChange}
+                                    className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown p-3" 
+                                />
                             </div>
                             <div className="grid sm:grid-cols-2 gap-4">
                                 <div>
@@ -568,7 +677,14 @@ const Home: React.FC = () => {
                                 </div>
                                 <div>
                                     <label htmlFor="destinationCountry" className="block text-sm font-bold text-drab-dark-brown">País de Destino</label>
-                                    <select id="destinationCountry" name="destinationCountry" className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown h-[50px] p-3">
+                                    <select 
+                                        id="destinationCountry" 
+                                        name="destinationCountry" 
+                                        required
+                                        value={registerForm.destinationCountry}
+                                        onChange={handleInputChange}
+                                        className="mt-1 block w-full rounded-lg border-tea-green shadow-sm focus:border-celtic-blue focus:ring focus:ring-celtic-blue focus:ring-opacity-50 bg-white text-drab-dark-brown h-[50px] p-3"
+                                    >
                                         <option value="">Seleccionar...</option>
                                         {countries.sort((a, b) => a.name.localeCompare(b.name)).map(country => (
                                             <option key={country.id} value={country.id}>{country.name}</option>
@@ -577,8 +693,20 @@ const Home: React.FC = () => {
                                 </div>
                             </div>
                             <div className="pt-4">
-                                <button type="submit" className="w-full bg-celtic-blue text-ivory font-bold py-3 px-8 rounded-full text-lg hover:bg-drab-dark-brown transition-colors duration-300 shadow-lg">
-                                    CREAR CUENTA
+                                <button 
+                                    type="submit" 
+                                    disabled={registerStatus === 'loading'}
+                                    className="w-full bg-celtic-blue text-ivory font-bold py-3 px-8 rounded-full text-lg hover:bg-drab-dark-brown transition-colors duration-300 shadow-lg disabled:bg-gray-400 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                                >
+                                    {registerStatus === 'loading' ? (
+                                        <>
+                                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            PROCESANDO...
+                                        </>
+                                    ) : 'CREAR CUENTA'}
                                 </button>
                             </div>
                         </form>
